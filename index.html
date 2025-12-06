@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ryan Galang - Portfolio</title>
+    <title>Ryan Galang - My Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -35,6 +35,22 @@
                 transform: translateY(0) scale(1);
             }
         }
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+        @keyframes cardFloat {
+            0%, 100% { 
+                transform: translateY(0px) scale(1);
+            }
+            50% { 
+                transform: translateY(-10px) scale(1.02);
+            }
+        }
         
         /* Base Styles */
         * {
@@ -55,6 +71,9 @@
         }
         .fade-in-up {
             opacity: 0; 
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .fade-in-up.active {
             animation: fadeInUp 0.8s ease-out forwards;
         }
         .modal-backdrop {
@@ -218,8 +237,112 @@
             height: calc(100% - 240px);
         }
         
+        .project-card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .project-card:hover .project-card-title {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .project-card-subtitle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        
+        .project-card-description {
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.875rem;
+            flex-grow: 1;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .project-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover .project-tag {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .project-actions {
+            display: flex;
+            gap: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .project-btn {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .project-btn-primary {
+            background: white;
+            color: black;
+        }
+        
+        .project-btn-primary:hover {
+            background: #f3f4f6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.3);
+        }
+        
+        .project-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .project-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Ensure all project cards have the same height */
+        #projects .grid {
+            display: grid;
+            grid-auto-rows: 1fr;
+        }
+        
+        /* Smooth scroll improvements */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Better animation performance */
+        .will-change-opacity {
+            will-change: opacity, transform;
+        }
+        
         /* ========== TABLET RESPONSIVENESS (768px - 1024px) ========== */
         @media (min-width: 769px) and (max-width: 1024px) {
+            /* Tablet optimizations */
             #home h1 {
                 font-size: 3.5rem !important;
             }
@@ -250,7 +373,7 @@
             .modal {
                 padding: 0 !important;
                 align-items: flex-start !important;
-                z-index: 9999;
+                z-index: 9999 !important;
             }
             
             .modal-content {
@@ -271,14 +394,13 @@
             }
             
             .modal h2 {
-                font-size: 1rem !important;
-                line-height: 1.25 !important;
-                padding-right: 2rem;
+                font-size: 1.1rem !important;
+                line-height: 1.3 !important;
+                padding-right: 2.5rem;
             }
             
             .modal .p-8,
-            .modal .p-6,
-            .modal .p-4 {
+            .modal .p-6 {
                 padding: 1rem !important;
             }
             
@@ -292,6 +414,7 @@
                 margin-top: 1rem !important;
             }
             
+            /* MODAL IMAGES - SUPER RESPONSIVE */
             .modal img[id^="mainImage"] {
                 height: 180px !important;
                 border-radius: 0.5rem !important;
@@ -306,9 +429,10 @@
             }
             
             .modal .grid-cols-4 img {
-                height: 55px !important;
+                height: 60px !important;
                 width: 100% !important;
                 object-fit: cover;
+                cursor: pointer;
             }
             
             .modal ul li {
@@ -323,7 +447,7 @@
             
             .modal a.inline-block,
             .modal a.inline-flex {
-                padding: 0.625rem 1.25rem !important;
+                padding: 0.75rem 1.5rem !important;
                 font-size: 0.875rem !important;
                 width: 100% !important;
                 display: block !important;
@@ -333,6 +457,19 @@
             
             .modal .flex-wrap.gap-3 {
                 gap: 0.5rem !important;
+            }
+            
+            /* Text wrapping for small screens */
+            .modal p.leading-relaxed {
+                font-size: 0.875rem !important;
+                line-height: 1.6 !important;
+                text-align: justify;
+                word-wrap: break-word;
+            }
+            
+            .modal ul li span {
+                font-size: 0.875rem !important;
+                word-wrap: break-word;
             }
             
             /* Hero Section Mobile */
@@ -572,7 +709,7 @@
             }
             
             .modal h2 {
-                font-size: 0.875rem !important;
+                font-size: 1rem !important;
             }
             
             .modal img[id^="mainImage"] {
@@ -580,7 +717,7 @@
             }
             
             .modal .grid-cols-4 img {
-                height: 50px !important;
+                height: 55px !important;
             }
             
             .project-card-image {
@@ -617,6 +754,15 @@
                 width: 100% !important;
                 margin: 0.25rem 0 !important;
             }
+            
+            /* Smaller modal text for very small screens */
+            .modal p.leading-relaxed {
+                font-size: 0.8125rem !important;
+            }
+            
+            .modal ul li {
+                font-size: 0.8125rem !important;
+            }
         }
         
         /* ========== LANDSCAPE MODE (height < 500px) ========== */
@@ -637,31 +783,40 @@
             .modal img[id^="mainImage"] {
                 height: 120px !important;
             }
+            
+            .modal .grid-cols-4 img {
+                height: 50px !important;
+            }
+            
+            /* Adjust modal height for landscape */
+            .modal-content {
+                max-height: 95vh !important;
+                height: 95vh !important;
+            }
         }
         
-        /* ========== SMOOTH SCROLL AND ANIMATION IMPROVEMENTS ========== */
+        /* ========== SMOOTH SCROLL IMPROVEMENTS ========== */
         .smooth-scroll {
             scroll-behavior: smooth;
         }
         
-        .no-scroll {
+        /* Prevent content shift when modal opens */
+        .modal-open {
             overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
         
-        /* Improve animation performance */
-        .will-change-transform {
-            will-change: transform;
-        }
-        
-        /* Better touch targets for mobile */
+        /* Touch-friendly buttons for mobile */
         @media (max-width: 768px) {
-            button, a, input, textarea {
+            button, a[role="button"], .project-btn, .modal button {
                 min-height: 44px;
+                min-width: 44px;
             }
             
+            /* Better touch targets */
             .mobile-touch-target {
                 padding: 12px 16px;
-                font-size: 16px;
             }
         }
     </style>
@@ -693,7 +848,7 @@
                 </ul>
 
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden focus:outline-none text-white mobile-touch-target">
+                <button id="mobile-menu-btn" class="md:hidden focus:outline-none text-white">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -702,17 +857,17 @@
 
             <!-- Mobile Menu -->
             <div id="mobile-menu" class="hidden md:hidden pb-4">
-                <a href="#home" class="mobile-nav-link block py-3 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded mobile-touch-target">Home</a>
-                <a href="#about" class="mobile-nav-link block py-3 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded mobile-touch-target">About</a>
-                <a href="#skills" class="mobile-nav-link block py-3 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded mobile-touch-target">Skills</a>
-                <a href="#projects" class="mobile-nav-link block py-3 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded mobile-touch-target">Projects</a>
-                <a href="#contact" class="mobile-nav-link block py-3 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded mobile-touch-target">Contact</a>
+                <a href="#home" class="mobile-nav-link block py-2 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded">Home</a>
+                <a href="#about" class="mobile-nav-link block py-2 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded">About</a>
+                <a href="#skills" class="mobile-nav-link block py-2 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded">Skills</a>
+                <a href="#projects" class="mobile-nav-link block py-2 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded">Projects</a>
+                <a href="#contact" class="mobile-nav-link block py-2 text-gray-300 hover:text-white hover:bg-white/5 px-2 rounded">Contact</a>
             </div>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center bg-black text-white pt-16 relative overflow-hidden will-change-transform">
+    <section id="home" class="min-h-screen flex items-center justify-center bg-black text-white pt-16 relative overflow-hidden will-change-opacity">
         <div class="absolute inset-0 opacity-10">
             <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: 50px 50px;"></div>
         </div>
@@ -738,10 +893,10 @@
                 Building innovative web solutions with modern technologies and clean design principles
             </p>
             <div class="flex gap-4 justify-center fade-in-up" style="animation-delay: 0.6s">
-                <a href="#projects" class="inline-block bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300 shadow-2xl mobile-touch-target">
+                <a href="#projects" class="inline-block bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300 shadow-2xl">
                     View Projects
                 </a>
-                <a href="#contact" class="inline-block bg-white/10 text-white border-2 border-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transform hover:scale-105 transition duration-300 shadow-2xl mobile-touch-target">
+                <a href="#contact" class="inline-block bg-white/10 text-white border-2 border-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/20 transform hover:scale-105 transition duration-300 shadow-2xl">
                     Contact Me
                 </a>
             </div>
@@ -749,7 +904,7 @@
     </section>
 
     <!-- About Me Section - Current IT Student -->
-    <section id="about" class="section-hidden py-20 px-4 bg-gradient-to-b from-black to-gray-900 will-change-transform">
+    <section id="about" class="section-hidden py-20 px-4 bg-gradient-to-b from-black to-gray-900 will-change-opacity">
         <div class="max-w-6xl mx-auto">
             <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 text-white">About Me</h2>
             <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -805,7 +960,7 @@
     </section>
 
     <!-- Skills Section - Clean & Simple -->
-    <section id="skills" class="section-hidden py-20 px-4 bg-gray-900 will-change-transform">
+    <section id="skills" class="section-hidden py-20 px-4 bg-gray-900 will-change-opacity">
         <div class="max-w-6xl mx-auto">
             <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 text-white">Tech Stack</h2>
             
@@ -905,41 +1060,41 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="section-hidden py-20 px-4 bg-gradient-to-b from-gray-900 to-black will-change-transform">
+    <section id="projects" class="section-hidden py-20 px-4 bg-gradient-to-b from-gray-900 to-black will-change-opacity">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 text-white">Featured Projects</h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 <!-- Project 1: iSkolar - Updated with Ongoing Capstone -->
-                <div class="glass rounded-2xl overflow-hidden hover:bg-white/10 transition transform hover:-translate-y-2 hover:shadow-2xl group project-card">
-                    <div class="relative overflow-hidden project-card-image">
+                <div class="glass rounded-2xl overflow-hidden hover:bg-white/10 transition transform hover:-translate-y-2 hover:shadow-2xl group">
+                    <div class="relative overflow-hidden">
                         <img src="images/iskolar.jpg" alt="iSkolar Project" class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent project-card-overlay"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                         <!-- Updated Badge -->
-                        <div class="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-sm font-semibold project-badge">
+                        <div class="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-sm font-semibold">
                             Capstone
                         </div>
                     </div>
-                    <div class="p-6 project-card-content">
-                        <h3 class="text-2xl font-bold mb-2 text-white project-card-title">iSkolar</h3>
-                        <p class="text-sm text-gray-400 mb-3 font-semibold project-card-subtitle">Scholarship Management System</p>
-                        <p class="text-gray-300 mb-4 leading-relaxed text-sm project-card-description">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 text-white">iSkolar</h3>
+                        <p class="text-sm text-gray-400 mb-3 font-semibold">Scholarship Management System</p>
+                        <p class="text-gray-300 mb-4 leading-relaxed text-sm">
                         A comprehensive scholarship application and management system for the Municipality of Binmaley with multi-step application forms, document uploads, status tracking, automated bulk email notifications for confirmations and renewals, and payout management capabilities.
                         </p>
                         <div class="mb-4">
-                            <div class="flex flex-wrap gap-2 project-tags">
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Laravel</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Blade</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Bootstrap</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">CSS</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">MySQL</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Laravel</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Blade</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Bootstrap</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">CSS</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">MySQL</span>
                             </div>
                         </div>
-                        <div class="flex gap-3 pt-3 border-t border-white/10 project-actions">
-                            <a href="https://blake-isanthous-preluxuriously.ngrok-free.dev" target="_blank" class="flex-1 text-center bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition project-btn project-btn-primary">
+                        <div class="flex gap-3 pt-3 border-t border-white/10">
+                            <a href="https://blake-isanthous-preluxuriously.ngrok-free.dev" target="_blank" class="flex-1 text-center bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
                                 View Project
                             </a>
-                            <button onclick="openModal('modal1')" class="flex-1 text-center bg-white/10 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/20 transition project-btn project-btn-secondary">
+                            <button onclick="openModal('modal1')" class="flex-1 text-center bg-white/10 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/20 transition">
                                 View Details
                             </button>
                         </div>
@@ -947,33 +1102,33 @@
                 </div>
 
                 <!-- Project 2: FlashCode -->
-                <div class="glass rounded-2xl overflow-hidden hover:bg-white/10 transition transform hover:-translate-y-2 hover:shadow-2xl group project-card">
-                    <div class="relative overflow-hidden project-card-image">
+                <div class="glass rounded-2xl overflow-hidden hover:bg-white/10 transition transform hover:-translate-y-2 hover:shadow-2xl group">
+                    <div class="relative overflow-hidden">
                         <img src="images/try.png" alt="FlashCode Project" class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent project-card-overlay"></div>
-                        <div class="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-sm font-semibold project-badge">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div class="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-sm font-semibold">
                             Mobile App
                         </div>
                     </div>
-                    <div class="p-6 project-card-content">
-                        <h3 class="text-2xl font-bold mb-2 text-white project-card-title">FlashCode</h3>
-                        <p class="text-sm text-gray-400 mb-3 font-semibold project-card-subtitle">Programming Learning App</p>
-                        <p class="text-gray-300 mb-4 leading-relaxed text-sm project-card-description">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 text-white">FlashCode</h3>
+                        <p class="text-sm text-gray-400 mb-3 font-semibold">Programming Learning App</p>
+                        <p class="text-gray-300 mb-4 leading-relaxed text-sm">
                             An interactive mobile flashcard application designed to help students master programming concepts through gamified learning with progress tracking.
                         </p>
                         <div class="mb-4">
-                            <div class="flex flex-wrap gap-2 project-tags">
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">React Native</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">JavaScript</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">MySQL</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Expo</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">React Native</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">JavaScript</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">MySQL</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Expo</span>
                             </div>
                         </div>
-                        <div class="flex gap-3 pt-3 border-t border-white/10 project-actions">
-                            <a href="https://github.com/ryangalang/FlashcardsApp" class="flex-1 text-center bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition project-btn project-btn-primary">
+                        <div class="flex gap-3 pt-3 border-t border-white/10">
+                            <a href="https://github.com/ryangalang/FlashcardsApp" class="flex-1 text-center bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
                                 View Project
                             </a>
-                            <button onclick="openModal('modal2')" class="flex-1 text-center bg-white/10 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/20 transition project-btn project-btn-secondary">
+                            <button onclick="openModal('modal2')" class="flex-1 text-center bg-white/10 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/20 transition">
                                 View Details
                             </button>
                         </div>
@@ -981,33 +1136,33 @@
                 </div>
 
                 <!-- Project 3: Freezer Inventory -->
-                <div class="glass rounded-2xl overflow-hidden hover:bg-white/10 transition transform hover:-translate-y-2 hover:shadow-2xl group project-card">
-                    <div class="relative overflow-hidden project-card-image">
+                <div class="glass rounded-2xl overflow-hidden hover:bg-white/10 transition transform hover:-translate-y-2 hover:shadow-2xl group">
+                    <div class="relative overflow-hidden">
                         <img src="images/rr.jpg" alt="Freezer Inventory Project" class="w-full h-56 object-cover group-hover:scale-110 transition duration-500">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent project-card-overlay"></div>
-                        <div class="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-sm font-semibold project-badge">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div class="absolute top-4 right-4 bg-white text-black px-3 py-1 rounded-full text-sm font-semibold">
                             Web App
                         </div>
                     </div>
-                    <div class="p-6 project-card-content">
-                        <h3 class="text-2xl font-bold mb-2 text-white project-card-title">Freezer Inventory</h3>
-                        <p class="text-sm text-gray-400 mb-3 font-semibold project-card-subtitle">Inventory Management System</p>
-                        <p class="text-gray-300 mb-4 leading-relaxed text-sm project-card-description">
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold mb-2 text-white">Freezer Inventory</h3>
+                        <p class="text-sm text-gray-400 mb-3 font-semibold">Inventory Management System</p>
+                        <p class="text-gray-300 mb-4 leading-relaxed text-sm">
                             A mobile-responsive inventory management system for tracking freezer stock, managing product quantities, expiration dates, and generating inventory reports with real-time updates.
                         </p>
                         <div class="mb-4">
-                            <div class="flex flex-wrap gap-2 project-tags">
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Laravel</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Tailwind CSS</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">MySQL</span>
-                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full project-tag">Blade</span>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Laravel</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Tailwind CSS</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">MySQL</span>
+                                <span class="bg-white/10 text-white text-xs px-2.5 py-1 rounded-full">Blade</span>
                             </div>
                         </div>
-                        <div class="flex gap-3 pt-3 border-t border-white/10 project-actions">
-                            <a href="https://github.com/ryangalang/freezer-inventory" class="flex-1 text-center bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition project-btn project-btn-primary">
+                        <div class="flex gap-3 pt-3 border-t border-white/10">
+                            <a href="https://github.com/ryangalang/freezer-inventory" class="flex-1 text-center bg-white text-black px-4 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">
                                 View Project
                             </a>
-                            <button type="button" onclick="openModal('modal3')" class="flex-1 text-center bg-white/10 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/20 transition project-btn project-btn-secondary">
+                            <button type="button" onclick="openModal('modal3')" class="flex-1 text-center bg-white/10 text-white px-4 py-2 rounded-lg font-semibold hover:bg-white/20 transition">
                                 View Details
                             </button>
                         </div>
@@ -1023,7 +1178,7 @@
         <div class="glass rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto modal-content">
             <div class="sticky top-0 glass p-6 flex justify-between items-center border-b border-white/10 z-10">
                 <h2 class="text-3xl font-bold text-white">iSkolar - Scholarship Management System</h2>
-                <button onclick="closeModal('modal1')" class="text-white hover:text-gray-300 transition mobile-touch-target">
+                <button onclick="closeModal('modal1')" class="text-white hover:text-gray-300 transition">
                     <i data-lucide="x" class="w-8 h-8"></i>
                 </button>
             </div>
@@ -1097,7 +1252,7 @@
                     </div>
 
                     <div class="pt-6">
-                        <a href="https://blake-isanthous-preluxuriously.ngrok-free.dev" target="_blank" class="inline-block bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300 mobile-touch-target">
+                        <a href="https://blake-isanthous-preluxuriously.ngrok-free.dev" target="_blank" class="inline-block bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300">
                             Visit Live Project
                         </a>
                     </div>
@@ -1111,7 +1266,7 @@
         <div class="glass rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto modal-content">
             <div class="sticky top-0 glass p-6 flex justify-between items-center border-b border-white/10 z-10">
                 <h2 class="text-3xl font-bold text-white">FlashCode - Programming Learning App</h2>
-                <button onclick="closeModal('modal2')" class="text-white hover:text-gray-300 transition mobile-touch-target">
+                <button onclick="closeModal('modal2')" class="text-white hover:text-gray-300 transition">
                     <i data-lucide="x" class="w-8 h-8"></i>
                 </button>
             </div>
@@ -1184,7 +1339,7 @@
                     </div>
 
                     <div class="pt-6">
-                        <a href="https://github.com/ryangalang/FlashcardsApp" target="_blank" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300 mobile-touch-target">
+                        <a href="https://github.com/ryangalang/FlashcardsApp" target="_blank" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300">
                             <i data-lucide="github" class="w-5 h-5"></i>
                             View on GitHub
                         </a>
@@ -1199,7 +1354,7 @@
         <div class="glass rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-y-auto modal-content">
             <div class="sticky top-0 glass p-6 flex justify-between items-center border-b border-white/10 z-10">
                 <h2 class="text-3xl font-bold text-white">Freezer Inventory Management System</h2>
-                <button onclick="closeModal('modal3')" class="text-white hover:text-gray-300 transition mobile-touch-target">
+                <button onclick="closeModal('modal3')" class="text-white hover:text-gray-300 transition">
                     <i data-lucide="x" class="w-8 h-8"></i>
                 </button>
             </div>
@@ -1272,7 +1427,7 @@
                     </div>
 
                     <div class="pt-6">
-                        <a href="https://github.com/ryangalang/freezer-inventory" target="_blank" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300 mobile-touch-target">
+                        <a href="https://github.com/ryangalang/freezer-inventory" target="_blank" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-200 transform hover:scale-105 transition duration-300">
                             <i data-lucide="github" class="w-5 h-5"></i>
                             View on GitHub
                         </a>
@@ -1283,7 +1438,7 @@
     </div>
 
     <!-- Contact Section -->
-    <section id="contact" class="section-hidden py-20 px-4 bg-black will-change-transform">
+    <section id="contact" class="section-hidden py-20 px-4 bg-black will-change-opacity">
         <div class="max-w-5xl mx-auto">
             <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 text-white">Get In Touch</h2>
             <div class="grid md:grid-cols-2 gap-12">
@@ -1300,23 +1455,23 @@
                                 <i data-lucide="user" class="w-4 h-4"></i>
                                 Name
                             </label>
-                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-gray-500 transition mobile-touch-target" placeholder="Your Name">
+                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-gray-500 transition" placeholder="Your Name">
                         </div>
                         <div>
                             <label class="block text-gray-300 font-semibold mb-2 flex items-center gap-2">
                                 <i data-lucide="mail" class="w-4 h-4"></i>
                                 Email
                             </label>
-                            <input type="email" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-gray-500 transition mobile-touch-target" placeholder="your.email@example.com">
+                            <input type="email" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-white placeholder-gray-500 transition" placeholder="your.email@example.com">
                         </div>
                         <div>
                             <label class="block text-gray-300 font-semibold mb-2 flex items-center gap-2">
                                 <i data-lucide="message-square" class="w-4 h-4"></i>
                                 Message
                             </label>
-                            <textarea rows="5" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent resize-none text-white placeholder-gray-500 transition mobile-touch-target" placeholder="Tell me about your project..."></textarea>
+                            <textarea rows="5" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent resize-none text-white placeholder-gray-500 transition" placeholder="Tell me about your project..."></textarea>
                         </div>
-                        <button type="submit" class="w-full bg-white text-black py-4 rounded-lg font-bold text-lg hover:bg-gray-200 transition shadow-lg transform hover:scale-105 flex items-center justify-center gap-2 mobile-touch-target">
+                        <button type="submit" class="w-full bg-white text-black py-4 rounded-lg font-bold text-lg hover:bg-gray-200 transition shadow-lg transform hover:scale-105 flex items-center justify-center gap-2">
                             <span>Send Message</span>
                             <i data-lucide="send" class="w-5 h-5"></i>
                         </button>
@@ -1364,7 +1519,7 @@
                     <div class="pt-6 border-t border-white/10">
                         <h4 class="font-bold text-lg mb-4 text-white">Connect with me</h4>
                         <div class="space-y-3">
-                            <a href="https://www.linkedin.com/in/ryan-galang-44726437a/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group mobile-touch-target">
+                            <a href="https://www.linkedin.com/in/ryan-galang-44726437a/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group">
                                 <div class="w-10 h-10 flex items-center justify-center">
                                     <i data-lucide="linkedin" class="w-6 h-6 text-white group-hover:scale-110 transition"></i>
                                 </div>
@@ -1374,7 +1529,7 @@
                                 </div>
                             </a>
                             
-                            <a href="https://github.com/ryangalang" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group mobile-touch-target">
+                            <a href="https://github.com/ryangalang" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group">
                                 <div class="w-10 h-10 flex items-center justify-center">
                                     <i data-lucide="github" class="w-6 h-6 text-white group-hover:scale-110 transition"></i>
                                 </div>
@@ -1384,7 +1539,7 @@
                                 </div>
                             </a>
                             
-                            <a href="https://www.facebook.com/ryx.zxuan/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group mobile-touch-target">
+                            <a href="https://www.facebook.com/ryx.zxuan/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group">
                                 <div class="w-10 h-10 flex items-center justify-center">
                                     <i data-lucide="facebook" class="w-6 h-6 text-white group-hover:scale-110 transition"></i>
                                 </div>
@@ -1394,7 +1549,7 @@
                                 </div>
                             </a>
                             
-                            <a href="mailto:ryanperez0824@gmail.com" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group mobile-touch-target">
+                            <a href="mailto:ryanperez0824@gmail.com" class="flex items-center gap-4 glass p-3 rounded-xl hover:bg-white/20 transition group">
                                 <div class="w-10 h-10 flex items-center justify-center">
                                     <i data-lucide="mail" class="w-6 h-6 text-white group-hover:scale-110 transition"></i>
                                 </div>
@@ -1416,19 +1571,19 @@
             <p class="text-sm text-gray-400">&copy; 2025 <span class="font-semibold text-white">Ryan Galang</span></p>
             
             <div class="flex gap-3">
-                <a href="https://www.linkedin.com/in/ryan-galang-44726437a/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group mobile-touch-target" title="LinkedIn">
+                <a href="https://www.linkedin.com/in/ryan-galang-44726437a/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group" title="LinkedIn">
                     <i data-lucide="linkedin" class="w-5 h-5 text-white group-hover:scale-110 transition"></i>
                 </a>
                 
-                <a href="https://github.com/ryangalang" target="_blank" rel="noopener noreferrer" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group mobile-touch-target" title="GitHub">
+                <a href="https://github.com/ryangalang" target="_blank" rel="noopener noreferrer" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group" title="GitHub">
                     <i data-lucide="github" class="w-5 h-5 text-white group-hover:scale-110 transition"></i>
                 </a>
                 
-                <a href="https://www.facebook.com/ryx.zxuan/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group mobile-touch-target" title="Facebook">
+                <a href="https://www.facebook.com/ryx.zxuan/" target="_blank" rel="noopener noreferrer" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group" title="Facebook">
                     <i data-lucide="facebook" class="w-5 h-5 text-white group-hover:scale-110 transition"></i>
                 </a>
                 
-                <a href="mailto:ryanperez0824@gmail.com" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group mobile-touch-target" title="Email">
+                <a href="mailto:ryanperez0824@gmail.com" class="w-9 h-9 flex items-center justify-center glass rounded-lg hover:bg-white/20 transition group" title="Email">
                     <i data-lucide="mail" class="w-5 h-5 text-white group-hover:scale-110 transition"></i>
                 </a>
             </div>
@@ -1572,8 +1727,8 @@
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.add('active');
-            document.body.classList.add('no-scroll');
             document.body.style.overflow = 'hidden';
+            document.body.classList.add('modal-open');
             // Refresh icons in modal
             setTimeout(() => lucide.createIcons(), 100);
         }
@@ -1581,8 +1736,8 @@
         function closeModal(modalId) {
             const modal = document.getElementById(modalId);
             modal.classList.remove('active');
-            document.body.classList.remove('no-scroll');
             document.body.style.overflow = 'auto';
+            document.body.classList.remove('modal-open');
         }
 
         function changeImage(modalId, imageSrc) {
@@ -1628,16 +1783,6 @@
                 contactForm.reset();
             });
         }
-
-        // Prevent zoom on double-tap for mobile
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
     </script>
 </body>
 </html>
